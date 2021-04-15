@@ -1,28 +1,19 @@
 import sys
-import argparse
 import requests
 import cv2
 from threading import Thread
-import matplotlib.pyplot as plt
-import numpy
-import io
-import base64
+
 
 width=700
 height=700
 class VideoStream:
     """Camera object that controls video streaming from the Picamera"""
 
-    def __init__(self, resolution=(700, 700), framerate=30, src=0):
+    def __init__(self, resolution=(700, 700), src=0):
         # Initialize the PiCamera and the camera image stream
         self.stream = cv2.VideoCapture(src)
-        ret = self.stream.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc(*'MJPG'))
-        ret = self.stream.set(3, resolution[0])
-        ret = self.stream.set(4, resolution[1])
-
         # Read first frame from the stream
         (self.grabbed, self.frame) = self.stream.read()
-
         # Variable to control when the camera is stopped
         self.stopped = False
 
@@ -50,13 +41,6 @@ class VideoStream:
     def stop(self):
         # Indicate that the camera and thread should be stopped
         self.stopped = True
-
-API_URL_face= 'https://dapi.kakao.com/v2/vision/face/detect'
-API_URL_product='https://dapi.kakao.com/v2/vision/product/detect'
-MYAPP_KEY = 'dc1c73f6e60df6275c73c4a48242cd27'
-
-#Initialize Multiple Video streams
-cap1=VideoStream(resolution=(width,height),framerate=30,src=0).start()
 
 def detect_face(filename):
     headers = {'Authorization': 'KakaoAK {}'.format(MYAPP_KEY)}
@@ -102,11 +86,15 @@ def bbox(frame, detection_result_face,detection_result_product):
         cv2.rectangle(frame, (x1_p, y1_p), (x2_p, y2_p),
                       (0, 0, 0), 2)
 
-
-
     return frame
 
 
+API_URL_face= 'https://dapi.kakao.com/v2/vision/face/detect'
+API_URL_product='https://dapi.kakao.com/v2/vision/product/detect'
+MYAPP_KEY = 'dc1c73f6e60df6275c73c4a48242cd27'
+
+#Initialize Multiple Video streams
+cap1=VideoStream(resolution=(width,height),src=0).start()
 
 while True:
 
