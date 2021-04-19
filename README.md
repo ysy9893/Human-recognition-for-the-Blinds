@@ -24,6 +24,14 @@ fi
 if [ $version == "3.5" ]; then
 pip3 install https://github.com/google-coral/pycoral/releases/download/release-frogfish/tflite_runtime-2.5.0-cp35-cp35m-linux_armv7l.whl
 fi
+### Concatenation of multiple webcam 
+### Tracking objects
+### Car detection 
+### Face detection & Recognition 
+### Product Recognition 
+### Measurement of target's direction & distance 
+
+
 
 ###### TFLite model for detecting vehicle is from https://github.com/ecd1012/rpi_road_object_detection
 ###### Face Detect and Product Detect from KAKAO AI API 
