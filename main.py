@@ -13,13 +13,11 @@ import argparse
 import cv2
 import numpy as np
 import sys
-import time
 import importlib.util
 from nms import NMS
 from threading import Thread
 from motpy import Detection, MultiObjectTracker
 import requests
-import matplotlib.pyplot as plt
 from speech import speak
 
 #####################################################################################
@@ -131,12 +129,11 @@ def bbox(frame, detection_result_face,detection_result_product):
         cv2.putText(frame, label, (x1_p, y1_p-7), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 0), 2) # Draw label text
         cv2.putText(frame, gender+' '+age+' '+yaw, (x1_f, y1_f-7), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255,255,255), 2)
 
-
-
     
 #####################################################################################
 #####################################################################################
-## Define and parse input arguments
+#Define and parse input arguments
+
 parser = argparse.ArgumentParser()
 parser.add_argument('--modeldir', help='Folder the .tflite file is located in',
                     required=True)

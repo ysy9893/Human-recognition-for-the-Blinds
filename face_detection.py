@@ -1,23 +1,30 @@
 import sys
-import argparse
 import requests
 import cv2
 from threading import Thread
-import matplotlib.pyplot as plt
-import numpy
+import face_recognition
+import pickle
+import cv2
+import os
+import numpy as np
+
+# find path of xml file containing haarcascade file
+cascPathface = os.path.dirname(cv2.__file__) + "/data/haarcascade_frontalface_alt2.xml"
+# load the harcaascade in the cascade classifier
+faceCascade = cv2.CascadeClassifier(cascPathface)
+# load the known faces and embeddings saved in last file
+data = pickle.loads(open('face_enc', "rb").read())
 
 
 width=700
 height=700
+
 class VideoStream:
     """Camera object that controls video streaming from the Picamera"""
 
-    def __init__(self, resolution=(700, 700), framerate=30, src=0):
+    def __init__(self, resolution=(700, 700), src=0):
         # Initialize the PiCamera and the camera image stream
         self.stream = cv2.VideoCapture(src)
-        ret = self.stream.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc(*'MJPG'))
-        ret = self.stream.set(3, resolution[0])
-        ret = self.stream.set(4, resolution[1])
 
         # Read first frame from the stream
         (self.grabbed, self.frame) = self.stream.read()
@@ -55,7 +62,7 @@ API_URL_product='https://dapi.kakao.com/v2/vision/product/detect'
 MYAPP_KEY = '4cdab2c7ed5f6af444ab8a3316bf914e'
 
 #Initialize Multiple Video streams
-cap1=VideoStream(resolution=(width,height),framerate=30,src=0).start()
+cap1=VideoStream(resolution=(width,height),src=0).start()
 
 def detect_face(filename):
     headers = {'Authorization': 'KakaoAK {}'.format(MYAPP_KEY)}
@@ -101,8 +108,6 @@ def bbox(frame, detection_result_face,detection_result_product):
         cv2.rectangle(frame, (x1_p, y1_p), (x2_p, y2_p),
                       (0, 0, 0), 2)
 
-
-
     return frame
 
 
@@ -111,12 +116,55 @@ while True:
 
     frame=cap1.read()
     frame=cv2.resize(frame,(width,height))
+
     ret,file=cv2.imencode('.jpg',frame)
     file=file.tobytes()
+
+    ret1, frame1 = cv2.VideoCapture(0).read()
+
+    # convert the input frame from BGR to RGB
+    rgb = cv2.cvtColor(frame1, cv2.COLOR_BGR2RGB)
+    encodings = face_recognition.face_encodings(rgb)
+    names = []
+    face_locations =[]
+
+    face_found = False
+
+    for encoding in encodings:
+        # Compare encodings with encodings in data["encodings"]
+        # Matches contain array with boolean values and True for the embeddings it matches closely
+        # and False for rest
+
+        distances = distances = face_recognition.face_distance(data["encodings"], encoding)
+        min_value = min(distances)
+
+        # set name =unknown if no encoding matches
+        name = "Unknown"
+        # check to see if we have found a match
+
+        if min_value < 0.5:
+            index = np.argmin(distances)
+            name = data["names"][index]
+
+        # update the list of names
+        names.append(name)
+        # loop over the recognized faces
+
+        count_l = 0
+        count_r = 0
+
+        print(names)
+
+        for i in range(len(names)):
+            cv2.putText(frame, names[i], (100, 100*i + 100), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 0), 2)
+
+
+
+
     detection_result_face = detect_face(file)
     detection_result_product=detect_product(file)
 
-    frame = bbox(frame, detection_result_face,detection_result_product)
+    frame = bbox(frame, detection_result_face, detection_result_product)
     cv2.imshow('frame',frame)
 
     # Press 'ESC' to quit

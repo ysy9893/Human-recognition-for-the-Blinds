@@ -14,20 +14,11 @@ def NMS(boxes,classes, probs, overlapThresh,imH,imW):
 	pick = []
 
 	# grab the coordinates of the bounding boxes
-	
-	
 	x1 = boxes[:, 1]*imW
 	y1 = boxes[:, 0]*imH
 	x2 = boxes[:, 3]*imW
 	y2 = boxes[:, 2]*imH
-	
-	
-	
-	
-	
-		
 
-	
 	# compute the area of the bounding boxes and grab the indexes to sort
 	# (in the case that no probabilities are provided, simply sort on the
 	# bottom-left y-coordinate)
