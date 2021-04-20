@@ -20,7 +20,6 @@ from motpy import Detection, MultiObjectTracker
 import requests
 from speech import speak
 from face_recog import face_recog, load_known_face
-
 #####################################################################################
 #####################################################################################
 #Videostreaming using multi threading 
@@ -145,7 +144,7 @@ parser.add_argument('--labels', help='Name of the labelmap file, if different th
 parser.add_argument('--threshold', help='Minimum confidence threshold for displaying detected objects',
                     default=0.5)
 parser.add_argument('--resolution', help='Desired webcam resolution in WxH. If the webcam does not support the resolution entered, errors may occur.',
-                    default='700x700')
+                    default='1500x500')
 parser.add_argument('--edgetpu', help='Use Coral Edge TPU Accelerator to speed up detection',
                     action='store_true')
 
@@ -235,14 +234,15 @@ freq = cv2.getTickFrequency()#Return clock cycle per second
 ###Inferencing
 
 ##Load face_recogntion model
-target_face_encoding=load_known_face('target.jpg')
+#target_face_encoding=load_known_face('target.jpg')
 
 ## Initialize multiple video stream
 webcam1=VideoStream(resolution=(700,700),framerate=30,src=0).start()
-'''
 webcam2=VideoStream(resolution=(700,700),framerate=30,src=2).start()
 webcam3=VideoStream(resolution=(700,700),framerate=30,src=4).start()
-'''
+
+
+###Inferencing 
 
 ##Initialize Tracker 
 tracker=MultiObjectTracker(dt=0.1) #100ms
@@ -259,14 +259,20 @@ while True:
 
     #Grab frame from video stream
 
-    frame1=webcam1.read()
-    '''
-    frame2=webcam2.read()
-    frame3=webcam3.read()
 
-    frame1=cv2.hconcat([frame1,frame2])
+    frame1=webcam1.read()
+    print(frame1.shape)
+    frame2=webcam2.read()
+    print(frame2.shape)
+    frame3=webcam3.read()
+    print(frame3.shape)
+    
+
     frame1=cv2.hconcat([frame1,frame3])
-    '''
+    frame1=cv2.hconcat([frame1,frame2])
+    
+
+
 
 
     # Acquire frame and resize to expected shape [1xHxWx3]
@@ -327,19 +333,25 @@ while True:
     #################################output######################################################
     #resize output frame
     frame=cv2.resize(frame,(imW,imH))
+
     ##############################Face & product recognition############################################################
     
     #ret,file=cv2.imencode('.jpg',frame)
     #file=file.tobytes()
-    #file='./temp.jpg'
-    #cv2.imwrite(file,frame)
-    #detection_result_face = detect_face(file)
-    #detection_result_product=detect_product(file)
-    #bbox(frame, detection_result_face,detection_result_product)
+    '''
+    file='./temp.jpg'
+    cv2.imwrite(file,frame)
+    detection_result_face = detect_face(file)
+    detection_result_product=detect_product(file)
+    bbox(frame, tection_result_face,detection_result_product)
+    '''
+    
+    '''
     faces=face_recog(frame,target_face_encoding)
     for face in faces:
         cv2.rectangle(frame, (face[0],face[1]),
                   (face[2],face[3]), (10, 255, 0), 2)
+    '''
     
     
     #########################################################################################
