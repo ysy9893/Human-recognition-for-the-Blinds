@@ -238,8 +238,8 @@ freq = cv2.getTickFrequency()#Return clock cycle per second
 
 ## Initialize multiple video stream
 webcam1=VideoStream(resolution=(700,700),framerate=30,src=0).start()
-webcam2=VideoStream(resolution=(700,700),framerate=30,src=2).start()
-webcam3=VideoStream(resolution=(700,700),framerate=30,src=4).start()
+webcam2=VideoStream(resolution=(700,700),framerate=30,src=4).start()
+webcam3=VideoStream(resolution=(700,700),framerate=30,src=2).start()
 
 
 ###Inferencing 
@@ -261,14 +261,22 @@ while True:
 
 
     frame1=webcam1.read()
-    print(frame1.shape)
     frame2=webcam2.read()
-    print(frame2.shape)
     frame3=webcam3.read()
-    print(frame3.shape)
     
+    
+    frame1=cv2.resize(frame1,(800,800))
+    frame2=cv2.resize(frame2,(800,600))
+    frame3=cv2.resize(frame3,(800,600))
+    
+    #frame1=cv2.copyMakeBorder(frame1,80,0,100,0,cv2.BORDER_CONSTANT,value=[255,255,255])
+    frame2=cv2.copyMakeBorder(frame2,134,66,0,0,cv2.BORDER_CONSTANT,value=[255,255,255])
+    frame3=cv2.copyMakeBorder(frame3,105,95,0,0,cv2.BORDER_CONSTANT,value=[255,255,255])
+    
+   
 
-    frame1=cv2.hconcat([frame1,frame3])
+
+    frame1=cv2.hconcat([frame3,frame1])
     frame1=cv2.hconcat([frame1,frame2])
     
 
