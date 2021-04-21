@@ -120,17 +120,16 @@ while True:
     ret,file=cv2.imencode('.jpg',frame)
     file=file.tobytes()
 
-<<<<<<< HEAD
     #ret1, frame1 = cv2.VideoCapture(0).read()
 
     # convert the input frame from BGR to RGB
     rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-=======
+
     ret1, frame1 = cv2.VideoCapture(0).read()
 
     # convert the input frame from BGR to RGB
     rgb = cv2.cvtColor(frame1, cv2.COLOR_BGR2RGB)
->>>>>>> 9328d4aefed0f824a29d85ac2be1608249f1e834
+
     encodings = face_recognition.face_encodings(rgb)
     names = []
     face_locations =[]
