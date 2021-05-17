@@ -357,11 +357,8 @@ fi
 if [ $version == "3.5" ]; then
 pip3 install https://github.com/google-coral/pycoral/releases/download/release-frogfish/tflite_runtime-2.5.0-cp35-cp35m-linux_armv7l.whl
 fi
-### Concatenation of multiple webcam 
-### Tracking objects
-### Car detection 
-### Face detection & Recognition 
-### Product Recognition 
+## 2. Concatenation of multiple webcam 
+## 3. Face and Product detection & Recognition 
 
 
 
