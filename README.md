@@ -363,7 +363,7 @@ return self.active_tracks(**self.active_tracks_kwargs)
  Refer: https://github.com/Chatherina423/hand-gesture-recognition-mediapipe (수현 깃허브)
 ## 4. Speech recognition
  Refer: Checkout to speech_recog branch (https://github.com/ysy9893/Human-recognition-for-the-Blinds/tree/speech_recog)
-## 3. Face and Product detection & Recognition 
+## 5. Face and Product detection & Recognition 
  Refer:
  https://developers.kakao.com/docs/latest/ko/vision/dev-guide#recog-face    
  
