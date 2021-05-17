@@ -50,7 +50,7 @@ More details about Non Maximum Suppression are stated in this link : https://wha
 More details about the kalman filter are stated in this link: https://kr.mathworks.com/videos/introduction-to-kalman-filters-for-object-tracking-79674.html    
 
 In fact, there're some changes compared to original codes! 
-For example, instead of using video instances by creting Video classes run by multi-threads, I'd just imported imutils video module to use videostream class. By using this library, codes are simplified. 
+For example, instead of using video instances by creating Video classes run by multi-threads, I'd just imported imutils video module to use videostream class. By using this library, codes are simplified. 
 
 ##### 2. Non Maximum Suppression on outputs of Mobilenet SSD    
 I wrote a script nms.py that implement Non Maximum Suppression next to main.py! It could be used as module by simply importing NMS from nms.py!
