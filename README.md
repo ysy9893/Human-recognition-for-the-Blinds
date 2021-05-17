@@ -131,10 +131,10 @@ while len(idxs)>0:
    idxs=np.delete(idxs,
     np.concatenate(([last],np.where(overlap>overlapThresh)[0])))
 ```
-<img src="images/ppt1.jpg"  width="700" height="350">
-<img src="images/ppt2.jpg"  width="700" height="350">
-<img src="images/ppt3.jpg"  width="700" height="350">
-<img src="images/ppt4.jpg"  width="700" height="350">
+<img src="Images/ppt1.jpg"  width="700" height="350">
+<img src="Images/ppt2.jpg"  width="700" height="350">
+<img src="Images/ppt3.jpg"  width="700" height="350">
+<img src="Images/ppt4.jpg"  width="700" height="350">
 
 - Return chosen boxes, confidence scores, classes 
 ```python
